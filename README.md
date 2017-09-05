@@ -1,0 +1,1 @@
+# Daenet.Common.Logging
