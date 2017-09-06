@@ -68,13 +68,6 @@ namespace Daenet.Diagnostics
         /// </summary>
         private readonly string m_SourceName;
 
-        /// <summary>
-        /// Stores the trace source.
-        /// </summary>
-        private readonly TraceSource m_Source;
-
-
-
         #endregion
 
         #region Public Properties
@@ -85,14 +78,6 @@ namespace Daenet.Diagnostics
         public string SourceName
         {
             get { return m_SourceName; }
-        }
-
-        /// <summary>
-        /// Stores the trace source.
-        /// </summary>
-        public TraceSource Source
-        {
-            get { return m_Source; }
         }
 
         #endregion
@@ -112,6 +97,10 @@ namespace Daenet.Diagnostics
             m_Logger = logger;
         }
 
+        public LogManager(ILoggerFactory loggerFactory, string sourceName) : this(loggerFactory.CreateLogger(sourceName))
+        {
+            m_SourceName = sourceName;
+        }
 
         /// <summary>
         /// Creates the instance of the logging manager.
@@ -290,13 +279,34 @@ namespace Daenet.Diagnostics
         {
             try
             {
-                m_Logger.Log(mapToLogLevel(traceLevel), eventId, new Microsoft.Extensions.Logging.Internal.FormattedLogValues(msg, myParams), exception, null);
+                List<object> objectList = new List<object>(myParams);
+
+                if (CurrentScope.Count > 0)
+                {
+                    msg = msg + ";{scope_d7aeb2f369664dfeac94ff5af0207efb}";
+
+
+                    objectList.Add(CurrentScope);
+                }
+
+                m_Logger.Log(mapToLogLevel(traceLevel), eventId, new Microsoft.Extensions.Logging.Internal.FormattedLogValues(msg, objectList.ToArray()), exception, messageFormatter);
                 //Source.TraceData(traceEvent, eventId, msg, traceLevel, exception, CurrentScope, myParams);
             }
             catch (Exception ex)
             {
-                throw new LogManagerException(ex, "Cannot Log: {0}", ex.Message+ex.StackTrace);
+                throw new LogManagerException(ex, "Cannot Log: {0}", ex.Message + ex.StackTrace);
             }
+        }
+
+        /// <summary>
+        /// Default Formatter for messages
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="error"></param>
+        /// <returns></returns>
+        private static string messageFormatter(object state, Exception error)
+        {
+            return state.ToString();
         }
 
         /// <summary>
@@ -385,11 +395,11 @@ namespace Daenet.Diagnostics
         }
 
         /// <summary>
-        /// 
+        /// Local Scopes List
         /// </summary>
         private Dictionary<string, string> m_LocalScopes = new Dictionary<string, string>();
 
-        private LogManager m_ParentLogMgr;
+        //private LogManager m_ParentLogMgr;
         private ILogger m_Logger;
 
         /// <summary>
@@ -414,7 +424,7 @@ namespace Daenet.Diagnostics
         public void RemoveScope(string scopeName)
         {
             if (String.IsNullOrEmpty(scopeName))
-                throw new ArgumentException("The scope name is null or empty", "scopeName");
+                throw new ArgumentException("The scope name is null or empty", nameof(scopeName));
 
             lock (m_LocalScopes)
             {
@@ -436,14 +446,14 @@ namespace Daenet.Diagnostics
 
         private void buildScope(Dictionary<string, string> scopeToFill)
         {
-            if (m_ParentLogMgr != null)
-                m_ParentLogMgr.buildScope(scopeToFill);
+            //if (m_ParentLogMgr != null)
+                //m_ParentLogMgr.buildScope(scopeToFill);
 
             foreach (var scopes in m_LocalScopes)
             {
                 if (scopeToFill.ContainsKey(scopes.Key))
                     scopeToFill.Remove(scopes.Key);
-                if(scopes.Key == "UserName")
+                if (scopes.Key == "UserName")
                     scopeToFill.Add(scopes.Key, Thread.CurrentPrincipal.Identity.Name);
                 else
                     scopeToFill.Add(scopes.Key, scopes.Value);
