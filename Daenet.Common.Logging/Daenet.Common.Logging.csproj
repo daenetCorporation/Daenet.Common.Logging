@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.1</Version>
+    <Authors>daenet GmbH</Authors>
+    <Company>daenet GmbH</Company>
+    <Description />
+    <RepositoryUrl>https://github.com/daenetCorporation/Daenet.Common.Logging</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/daenetCorporation/Daenet.Common.Logging</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
