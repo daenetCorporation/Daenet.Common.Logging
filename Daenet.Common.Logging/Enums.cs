@@ -1,6 +1,6 @@
-
 using System;
-namespace Daenet.Diagnostics
+
+namespace Daenet.Common.Logging
 {
     /// <summary>
     /// Describes the who which stacktrace is shown.

@@ -1,5 +1,4 @@
-﻿using Daenet.Diagnostics;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 

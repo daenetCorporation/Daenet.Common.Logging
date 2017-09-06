@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.0.2</Version>
+    <Version>0.0.4</Version>
     <Authors>daenet GmbH</Authors>
     <Company>daenet GmbH</Company>
     <Description />
@@ -12,6 +12,7 @@
     <PackageIconUrl>https://avatars3.githubusercontent.com/u/12556447?v=4&amp;s=200</PackageIconUrl>
     <Copyright>daenet Gesellschaft für Informationstechnologie mbH</Copyright>
     <PackageTags>asp.net core logging ilogger logmanager</PackageTags>
+    <RootNamespace>Daenet.Common.Logging</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

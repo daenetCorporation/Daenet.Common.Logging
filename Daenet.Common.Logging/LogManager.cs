@@ -7,58 +7,22 @@ using System.Text;
 using System.Threading;
 using System.Security;
 using System.Collections.Generic;
-//using Daenet.Configuration;
-using Daenet.Common.Logging;
 using Microsoft.Extensions.Logging;
 
 //TODO: Check Signature
 //TODO: Refactor all
 //TODO: Property for tracing in UTC
 
-namespace Daenet.Diagnostics
+namespace Daenet.Common.Logging
 {
     /// <summary>
-    /// The LogManager is used to log messages from any application. The log manager uses the
-    /// standard Trace technologie of the .NET Framework. Every Message is written in a spicified Trace Source
-    /// which can be captured with a specified trace listener. The configuration is made in the application config,
-    /// there can be specified for ever used trace source a number of trace listener.
-    /// <example>
-    /// <code lang="xml">
-    /// <system.diagnostics>
-    /// <sources>
-    ///   <source name="Daenet.Diagnostic.Source">
-    ///     <listeners>
-    ///       <add name="TextListener"/>
-    ///       <add name="ExDumper"/>
-    ///       <remove name="Default" />
-    ///     </listeners>
-    ///   </source>
-    /// </sources>
-    /// <sharedListeners>
-    ///   <add name="TextListener" type="Daenet.Diagnostics.FileTraceListener, Daenet.System"
-    ///        traceLevel="Verbose"
-    ///        fileName="c:\test.log"
-    ///        stackTrace="Full"
-    ///        exceptionStackTrace="Full"
-    ///        exceptionTrace="InnerExceptions"
-    ///        maxSize="10000"
-    ///        utc="false"/>
-    ///   <add name="ExDumper" type="Daenet.Diagnostics.FileExceptionDump, Daenet.System"/>
-    /// </sharedListeners>
-    /// </system.diagnostics>    
-    /// </code>
-    /// </example>
-    /// </summary>
-    /// <remarks>
-    /// <list>
+    /// The LogManager is used to log messages from any application.
     /// 1. All messages have to have level between 1-4. On level 4 (Verbose) application vendor guarantees that all messages in the application are written in the
     /// log output. On level 0 (TraceOff) no message is written.<p/>
     /// 2. All errors are logged at level 1 (Low).
     /// 3. Warnings can be logged at any level.
     /// 4. Informations can be logged at any level.
-    /// 5. TODO...
-    /// </list>
-    /// </remarks>
+    /// </summary>
     public class LogManager : IDisposable
     {
         #region Private Fields
