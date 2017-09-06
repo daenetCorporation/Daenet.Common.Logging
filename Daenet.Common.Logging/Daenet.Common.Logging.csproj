@@ -2,13 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <Authors>daenet GmbH</Authors>
     <Company>daenet GmbH</Company>
     <Description />
     <RepositoryUrl>https://github.com/daenetCorporation/Daenet.Common.Logging</RepositoryUrl>
     <PackageProjectUrl>https://github.com/daenetCorporation/Daenet.Common.Logging</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIconUrl>https://avatars3.githubusercontent.com/u/12556447?v=4&amp;s=200</PackageIconUrl>
+    <Copyright>daenet Gesellschaft für Informationstechnologie mbH</Copyright>
+    <PackageTags>asp.net core logging ilogger logmanager</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
