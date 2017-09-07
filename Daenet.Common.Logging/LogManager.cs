@@ -23,7 +23,7 @@ namespace Daenet.Common.Logging
     /// 3. Warnings can be logged at any level.
     /// 4. Informations can be logged at any level.
     /// </summary>
-    public class LogManager : IDisposable
+    public class LogManager : IDisposable, ILogManager
     {
         #region Private Fields
 
@@ -56,12 +56,15 @@ namespace Daenet.Common.Logging
         //{
         //}
 
-        public LogManager(ILogger logger)
+        public LogManager(ILogger logger, LogManager parentLogMgr = null)
         {
             m_Logger = logger;
+
+            if (parentLogMgr != null)
+                m_LocalScopes = parentLogMgr.CurrentScope;
         }
 
-        public LogManager(ILoggerFactory loggerFactory, string sourceName) : this(loggerFactory.CreateLogger(sourceName))
+        public LogManager(ILoggerFactory loggerFactory, string sourceName, LogManager parentLogMgr = null) : this(loggerFactory.CreateLogger(sourceName), parentLogMgr)
         {
             m_SourceName = sourceName;
         }
@@ -176,7 +179,7 @@ namespace Daenet.Common.Logging
         /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
         public void TraceMessage(TracingLevel traceLevel, int eventId, string msg, params object[] myParams)
         {
-            trace(TraceEventType.Information, traceLevel, eventId, null, msg, myParams);
+            trace(TraceEventType.Information, LogLevel.Information, eventId, null, msg, myParams);
         }
 
 
@@ -191,7 +194,7 @@ namespace Daenet.Common.Logging
         /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
         public void TraceError(TracingLevel traceLevel, int eventId, string msg, params object[] myParams)
         {
-            trace(TraceEventType.Error, traceLevel, eventId, null, msg, myParams);
+            trace(TraceEventType.Error, LogLevel.Error, eventId, null, msg, myParams);
         }
 
         /// <summary>
@@ -207,7 +210,7 @@ namespace Daenet.Common.Logging
         /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
         public void TraceError(TracingLevel traceLevel, int eventId, Exception err, string msg, params object[] myParams)
         {
-            trace(TraceEventType.Error, traceLevel, eventId, err, msg, myParams);
+            trace(TraceEventType.Error, LogLevel.Error, eventId, err, msg, myParams);
         }
 
         /// <summary>
@@ -221,7 +224,41 @@ namespace Daenet.Common.Logging
         /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
         public void TraceWarning(TracingLevel traceLevel, int eventId, string msg, params object[] myParams)
         {
-            trace(TraceEventType.Warning, traceLevel, eventId, null, msg, myParams);
+            trace(TraceEventType.Warning, LogLevel.Warning, eventId, null, msg, myParams);
+        }
+
+        /// <summary>
+        /// The method traces a Debug message.
+        /// </summary>
+        /// <param name="eventId"></param>
+        /// <param name="msg"></param>
+        /// <param name="myParams"></param>
+        public void TraceDebug(int eventId, string msg, params object[] myParams)
+        {
+            trace(TraceEventType.Information, LogLevel.Debug, eventId, null, msg, myParams);
+        }
+
+        /// <summary>
+        /// The method traces a Criticial message.
+        /// </summary>
+        /// <param name="eventId"></param>
+        /// <param name="msg"></param>
+        /// <param name="myParams"></param>
+        public void TraceCritical(int eventId, string msg, params object[] myParams)
+        {
+            trace(TraceEventType.Critical, LogLevel.Critical, eventId, null, msg, myParams);
+        }
+
+        /// <summary>
+        /// The method traces a Criticial message with an exception.
+        /// </summary>
+        /// <param name="eventId"></param>
+        /// <param name="err"></param>
+        /// <param name="msg"></param>
+        /// <param name="myParams"></param>
+        public void TraceCritical(int eventId, Exception err, string msg, params object[] myParams)
+        {
+            trace(TraceEventType.Critical, LogLevel.Critical, eventId, err, msg, myParams);
         }
 
         #endregion
@@ -232,14 +269,14 @@ namespace Daenet.Common.Logging
         /// Trace the message in the trace source. 
         /// </summary>
         /// <param name="traceEvent">The tace event which is occured.</param>
-        /// <param name="traceLevel">The Trace level for this message.</param>
+        /// <param name="logLevel">The Trace level for this message.</param>
         /// <param name="eventId">The event id to identifiy a specific event.</param>
         /// <param name="exception">The excetion which is thrown.</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
         /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
-        private void trace(TraceEventType traceEvent, TracingLevel traceLevel, int eventId, Exception exception, string msg, params object[] myParams)
+        private void trace(TraceEventType traceEvent, LogLevel logLevel, int eventId, Exception exception, string msg, params object[] myParams)
         {
             try
             {
@@ -253,8 +290,7 @@ namespace Daenet.Common.Logging
                     objectList.Add(CurrentScope);
                 }
 
-                m_Logger.Log(mapToLogLevel(traceLevel), eventId, new Microsoft.Extensions.Logging.Internal.FormattedLogValues(msg, objectList.ToArray()), exception, messageFormatter);
-                //Source.TraceData(traceEvent, eventId, msg, traceLevel, exception, CurrentScope, myParams);
+                m_Logger.Log(logLevel, eventId, new Microsoft.Extensions.Logging.Internal.FormattedLogValues(msg, objectList.ToArray()), exception, messageFormatter);
             }
             catch (Exception ex)
             {

@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.0.4</Version>
+    <Version>0.0.6</Version>
     <Authors>daenet GmbH</Authors>
     <Company>daenet GmbH</Company>
-    <Description />
+    <Description>LogManager from Daenet.System</Description>
     <RepositoryUrl>https://github.com/daenetCorporation/Daenet.Common.Logging</RepositoryUrl>
     <PackageProjectUrl>https://github.com/daenetCorporation/Daenet.Common.Logging</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
