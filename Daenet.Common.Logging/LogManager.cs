@@ -135,7 +135,7 @@ namespace Daenet.Common.Logging
         //}
 
         /// <summary>
-        /// Implements the finalizer. Calls Dispose with false.
+        /// Implements the deconstructor. Calls Dispose with false.
         /// </summary>
         ~LogManager()
         {
@@ -162,6 +162,45 @@ namespace Daenet.Common.Logging
         #region Public Methods
 
         /// <summary>
+        /// Adds parameters to 
+        /// </summary>
+        /// <param name="scopeName"></param>
+        /// <param name="scopeValue"></param>
+        [Obsolete("Use AddAdditionalParams(string paramName, string paramValue) instead.")]
+        public void AddScope(string scopeName, string scopeValue)
+        {
+            this.AddAdditionalParams(scopeName, scopeValue);
+        }
+
+        [Obsolete("Use RemoveAdditionalParams(string paramName) instead.")]
+        public void RemoveScope(string scopeName)
+        {
+            this.RemoveAdditionalParams(scopeName);
+        }
+
+        /// <summary>
+        /// Begins a new Scope on ILogger
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public IDisposable BeginScope<TState>(TState state)
+        {
+            return m_Logger.BeginScope<TState>(state);
+        }
+
+        /// <summary>
+        /// Begins a new Scope on ILogger
+        /// </summary>
+        /// <param name="messageFormat"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public IDisposable BeginScope(string messageFormat, params object[] args)
+        {
+            return m_Logger.BeginScope(messageFormat, args);
+        }
+
+        /// <summary>
         /// Closes all resources.
         /// </summary>
         public void Close()
@@ -173,7 +212,7 @@ namespace Daenet.Common.Logging
         /// The Method traces a message.
         /// </summary>
         /// <param name="traceLevel">The Trace level for this message.</param>
-        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="eventId">The event id to identify a specific event..</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
@@ -187,7 +226,7 @@ namespace Daenet.Common.Logging
         /// <summary>
         /// The Method traces a message.
         /// </summary>
-        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="eventId">The event id to identify a specific event..</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
@@ -199,10 +238,10 @@ namespace Daenet.Common.Logging
 
 
         /// <summary>
-        /// The Method traces a error which is occured in the application.
+        /// The Method traces a error which is occurred in the application.
         /// </summary>
         /// <param name="traceLevel">The Trace level for this message.</param>
-        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="eventId">The event id to identify a specific event..</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
@@ -214,9 +253,9 @@ namespace Daenet.Common.Logging
         }
 
         /// <summary>
-        /// The Method traces a error which is occured in the application.
+        /// The Method traces a error which is occurred in the application.
         /// </summary>
-        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="eventId">The event id to identify a specific event..</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
@@ -227,11 +266,11 @@ namespace Daenet.Common.Logging
         }
 
         /// <summary>
-        /// The Method traces a error which is occured in the application.
+        /// The Method traces a error which is occurred in the application.
         /// The Error contain an exception.
         /// </summary>
         /// <param name="traceLevel">The Trace level for this message.</param>
-        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="eventId">The event id to identify a specific event..</param>
         /// <param name="err">The Error exception.</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
@@ -244,10 +283,10 @@ namespace Daenet.Common.Logging
         }
 
         /// <summary>
-        /// The Method traces a error which is occured in the application.
+        /// The Method traces a error which is occurred in the application.
         /// The Error contain an exception.
         /// </summary>
-        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="eventId">The event id to identify a specific event..</param>
         /// <param name="err">The Error exception.</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
@@ -259,10 +298,10 @@ namespace Daenet.Common.Logging
         }
 
         /// <summary>
-        /// The Method traces a warning which is occured in the application.
+        /// The Method traces a warning which is occurred in the application.
         /// </summary>
         /// <param name="traceLevel">The Trace level for this message.</param>
-        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="eventId">The event id to identify a specific event..</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
@@ -274,9 +313,9 @@ namespace Daenet.Common.Logging
         }
 
         /// <summary>
-        /// The Method traces a warning which is occured in the application.
+        /// The Method traces a warning which is occurred in the application.
         /// </summary>
-        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="eventId">The event id to identify a specific event..</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
@@ -298,7 +337,7 @@ namespace Daenet.Common.Logging
         }
 
         /// <summary>
-        /// The method traces a Criticial message.
+        /// The method traces a Critical message.
         /// </summary>
         /// <param name="eventId"></param>
         /// <param name="msg"></param>
@@ -322,7 +361,33 @@ namespace Daenet.Common.Logging
 
         #endregion
 
+
         #region Protected Methods
+
+        /// <summary>
+        /// Dispose(bool disposing) executes in two distinct scenarios.
+        /// If disposing equals true, the method has been called directly
+        /// or indirectly by a user's code. Managed and unmanaged resources
+        /// can be disposed.
+        /// If disposing equals false, the method has been called by the 
+        /// runtime from inside the finalize and you should not reference 
+        /// other objects. Only unmanaged resources can be disposed.
+        /// </summary>
+        /// <param name="disposing">Specifies whether to dispose all managed resources.</param>
+        /// <remarks>Override this method by implementing of custom logging.</remarks>
+        protected virtual void Dispose(bool disposing)
+        {
+            // If disposing equals true, dispose all managed 
+            // and unmanaged resources.
+            if (disposing)
+            {
+
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
 
         /// <summary>
         /// Trace the message in the trace source. 
@@ -392,28 +457,7 @@ namespace Daenet.Common.Logging
                     return LogLevel.None;
             }
         }
-
-
-        /// <summary>
-        /// Dispose(bool disposing) executes in two distinct scenarios.
-        /// If disposing equals true, the method has been called directly
-        /// or indirectly by a user's code. Managed and unmanaged resources
-        /// can be disposed.
-        /// If disposing equals false, the method has been called by the 
-        /// runtime from inside the finalize and you should not reference 
-        /// other objects. Only unmanaged resources can be disposed.
-        /// </summary>
-        /// <param name="disposing">Specifies whether to dispose all managed resources.</param>
-        /// <remarks>Override this method by implementing of custom logging.</remarks>
-        protected virtual void Dispose(bool disposing)
-        {
-            // If disposing equals true, dispose all managed 
-            // and unmanaged resources.
-            if (disposing)
-            {
-
-            }
-        }
+        
         #endregion
 
         #region Scope
@@ -454,7 +498,7 @@ namespace Daenet.Common.Logging
         }
 
         /// <summary>
-        /// Local Scopes List
+        /// Local AdditionalParameters List
         /// </summary>
         private Dictionary<string, string> m_AdditionalParams = new Dictionary<string, string>();
 
@@ -462,33 +506,33 @@ namespace Daenet.Common.Logging
         private ILogger m_Logger;
 
         /// <summary>
-        /// Add a scope
+        /// Add key/value to additional parameters
         /// </summary>
-        /// <param name="scopeName">The name of the scope</param>
-        /// <param name="scopeValue">The value of the scope.</param>
-        public void AddAdditionalParams(string scopeName, string scopeValue)
+        /// <param name="paramName">The name of the scope</param>
+        /// <param name="paramValue">The value of the scope.</param>
+        public void AddAdditionalParams(string paramName, string paramValue)
         {
             lock (m_AdditionalParams)
             {
-                if (m_AdditionalParams.ContainsKey(scopeName))
-                    m_AdditionalParams.Remove(scopeName);
-                m_AdditionalParams.Add(scopeName, scopeValue);
+                if (m_AdditionalParams.ContainsKey(paramName))
+                    m_AdditionalParams.Remove(paramName);
+                m_AdditionalParams.Add(paramName, paramValue);
             }
         }
 
         /// <summary>
-        /// Remove a scope
+        /// Remove key from additional parameters
         /// </summary>
-        /// <param name="scopeName">The name of the scope</param>
-        public void RemoveScope(string scopeName)
+        /// <param name="paramName">The name of the scope</param>
+        public void RemoveAdditionalParams(string paramName)
         {
-            if (String.IsNullOrEmpty(scopeName))
-                throw new ArgumentException("The scope name is null or empty", nameof(scopeName));
+            if (String.IsNullOrEmpty(paramName))
+                throw new ArgumentException("The scope name is null or empty", nameof(paramName));
 
             lock (m_AdditionalParams)
             {
-                if (m_AdditionalParams.ContainsKey(scopeName))
-                    m_AdditionalParams.Remove(scopeName);
+                if (m_AdditionalParams.ContainsKey(paramName))
+                    m_AdditionalParams.Remove(paramName);
             }
         }
 
@@ -518,7 +562,6 @@ namespace Daenet.Common.Logging
                     scopeToFill.Add(scopes.Key, scopes.Value);
             }
         }
-
 
         #endregion
     }
