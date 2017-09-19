@@ -47,6 +47,7 @@ namespace Daenet.Common.Logging
         #endregion
 
         #region Constructors & Deconstructor
+
         /// <summary>
         /// Creates the instance of the logging manager.
         /// Default source is "Daenet.Diagnostics.Source"
@@ -177,7 +178,21 @@ namespace Daenet.Common.Logging
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
         /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
+        [Obsolete("Use TraceMessage(int eventId, string msg, params object[] myParams) instead.", false)]
         public void TraceMessage(TracingLevel traceLevel, int eventId, string msg, params object[] myParams)
+        {
+            trace(TraceEventType.Information, LogLevel.Information, eventId, null, msg, myParams);
+        }
+
+        /// <summary>
+        /// The Method traces a message.
+        /// </summary>
+        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="msg">The message to trace. The message can contains format placeholders, which are
+        /// filled with the parameters.</param>
+        /// <param name="myParams">The Parameters to fill the message.</param>
+        /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
+        public void TraceMessage(int eventId, string msg, params object[] myParams)
         {
             trace(TraceEventType.Information, LogLevel.Information, eventId, null, msg, myParams);
         }
@@ -192,7 +207,21 @@ namespace Daenet.Common.Logging
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
         /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
+        [Obsolete("Use TraceError(int eventId, string msg, params object[] myParams) instead.", false)]
         public void TraceError(TracingLevel traceLevel, int eventId, string msg, params object[] myParams)
+        {
+            trace(TraceEventType.Error, LogLevel.Error, eventId, null, msg, myParams);
+        }
+
+        /// <summary>
+        /// The Method traces a error which is occured in the application.
+        /// </summary>
+        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="msg">The message to trace. The message can contains format placeholders, which are
+        /// filled with the parameters.</param>
+        /// <param name="myParams">The Parameters to fill the message.</param>
+        /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
+        public void TraceError(int eventId, string msg, params object[] myParams)
         {
             trace(TraceEventType.Error, LogLevel.Error, eventId, null, msg, myParams);
         }
@@ -208,7 +237,23 @@ namespace Daenet.Common.Logging
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
         /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
+        [Obsolete("Use TraceError(int eventId, Exception err, string msg, params object[] myParams) instead.", false)]
         public void TraceError(TracingLevel traceLevel, int eventId, Exception err, string msg, params object[] myParams)
+        {
+            trace(TraceEventType.Error, LogLevel.Error, eventId, err, msg, myParams);
+        }
+
+        /// <summary>
+        /// The Method traces a error which is occured in the application.
+        /// The Error contain an exception.
+        /// </summary>
+        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="err">The Error exception.</param>
+        /// <param name="msg">The message to trace. The message can contains format placeholders, which are
+        /// filled with the parameters.</param>
+        /// <param name="myParams">The Parameters to fill the message.</param>
+        /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
+        public void TraceError(int eventId, Exception err, string msg, params object[] myParams)
         {
             trace(TraceEventType.Error, LogLevel.Error, eventId, err, msg, myParams);
         }
@@ -222,7 +267,21 @@ namespace Daenet.Common.Logging
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
         /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
+        [Obsolete("Use TraceWarning(int eventId, string msg, params object[] myParams) instead.", false)]
         public void TraceWarning(TracingLevel traceLevel, int eventId, string msg, params object[] myParams)
+        {
+            trace(TraceEventType.Warning, LogLevel.Warning, eventId, null, msg, myParams);
+        }
+
+        /// <summary>
+        /// The Method traces a warning which is occured in the application.
+        /// </summary>
+        /// <param name="eventId">The event id to identifiy a specific event..</param>
+        /// <param name="msg">The message to trace. The message can contains format placeholders, which are
+        /// filled with the parameters.</param>
+        /// <param name="myParams">The Parameters to fill the message.</param>
+        /// <exception cref="Daenet.LogManagerException">If a log exception is thrown.</exception>
+        public void TraceWarning(int eventId, string msg, params object[] myParams)
         {
             trace(TraceEventType.Warning, LogLevel.Warning, eventId, null, msg, myParams);
         }
@@ -268,10 +327,10 @@ namespace Daenet.Common.Logging
         /// <summary>
         /// Trace the message in the trace source. 
         /// </summary>
-        /// <param name="traceEvent">The tace event which is occured.</param>
+        /// <param name="traceEvent">The trace event which is occurred.</param>
         /// <param name="logLevel">The Trace level for this message.</param>
-        /// <param name="eventId">The event id to identifiy a specific event.</param>
-        /// <param name="exception">The excetion which is thrown.</param>
+        /// <param name="eventId">The event id to identify a specific event.</param>
+        /// <param name="exception">The exception which is thrown.</param>
         /// <param name="msg">The message to trace. The message can contains format placeholders, which are
         /// filled with the parameters.</param>
         /// <param name="myParams">The Parameters to fill the message.</param>
@@ -341,7 +400,7 @@ namespace Daenet.Common.Logging
         /// or indirectly by a user's code. Managed and unmanaged resources
         /// can be disposed.
         /// If disposing equals false, the method has been called by the 
-        /// runtime from inside the finalizer and you should not reference 
+        /// runtime from inside the finalize and you should not reference 
         /// other objects. Only unmanaged resources can be disposed.
         /// </summary>
         /// <param name="disposing">Specifies whether to dispose all managed resources.</param>
