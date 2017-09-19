@@ -61,7 +61,7 @@ namespace Daenet.Common.Logging
             m_Logger = logger;
 
             if (parentLogMgr != null)
-                m_LocalScopes = parentLogMgr.CurrentScope;
+                m_AdditionalParams = parentLogMgr.CurrentScope;
         }
 
         public LogManager(ILoggerFactory loggerFactory, string sourceName, LogManager parentLogMgr = null) : this(loggerFactory.CreateLogger(sourceName), parentLogMgr)
@@ -397,7 +397,7 @@ namespace Daenet.Common.Logging
         /// <summary>
         /// Local Scopes List
         /// </summary>
-        private Dictionary<string, string> m_LocalScopes = new Dictionary<string, string>();
+        private Dictionary<string, string> m_AdditionalParams = new Dictionary<string, string>();
 
         //private LogManager m_ParentLogMgr;
         private ILogger m_Logger;
@@ -409,11 +409,11 @@ namespace Daenet.Common.Logging
         /// <param name="scopeValue">The value of the scope.</param>
         public void AddAdditionalParams(string scopeName, string scopeValue)
         {
-            lock (m_LocalScopes)
+            lock (m_AdditionalParams)
             {
-                if (m_LocalScopes.ContainsKey(scopeName))
-                    m_LocalScopes.Remove(scopeName);
-                m_LocalScopes.Add(scopeName, scopeValue);
+                if (m_AdditionalParams.ContainsKey(scopeName))
+                    m_AdditionalParams.Remove(scopeName);
+                m_AdditionalParams.Add(scopeName, scopeValue);
             }
         }
 
@@ -426,10 +426,10 @@ namespace Daenet.Common.Logging
             if (String.IsNullOrEmpty(scopeName))
                 throw new ArgumentException("The scope name is null or empty", nameof(scopeName));
 
-            lock (m_LocalScopes)
+            lock (m_AdditionalParams)
             {
-                if (m_LocalScopes.ContainsKey(scopeName))
-                    m_LocalScopes.Remove(scopeName);
+                if (m_AdditionalParams.ContainsKey(scopeName))
+                    m_AdditionalParams.Remove(scopeName);
             }
         }
 
@@ -438,9 +438,9 @@ namespace Daenet.Common.Logging
         /// </summary>
         public void ClearScope()
         {
-            lock (m_LocalScopes)
+            lock (m_AdditionalParams)
             {
-                m_LocalScopes.Clear();
+                m_AdditionalParams.Clear();
             }
         }
 
@@ -449,7 +449,7 @@ namespace Daenet.Common.Logging
             //if (m_ParentLogMgr != null)
                 //m_ParentLogMgr.buildScope(scopeToFill);
 
-            foreach (var scopes in m_LocalScopes)
+            foreach (var scopes in m_AdditionalParams)
             {
                 if (scopeToFill.ContainsKey(scopes.Key))
                     scopeToFill.Remove(scopes.Key);
