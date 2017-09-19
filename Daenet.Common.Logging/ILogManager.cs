@@ -8,7 +8,7 @@ namespace Daenet.Common.Logging
         Dictionary<string, string> CurrentScope { get; }
         string SourceName { get; }
 
-        void AddScope(string scopeName, string scopeValue);
+        void AddAdditionalParams(string scopeName, string scopeValue);
         void ClearScope();
         void Close();
         void Dispose();

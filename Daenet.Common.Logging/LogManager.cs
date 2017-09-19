@@ -407,7 +407,7 @@ namespace Daenet.Common.Logging
         /// </summary>
         /// <param name="scopeName">The name of the scope</param>
         /// <param name="scopeValue">The value of the scope.</param>
-        public void AddScope(string scopeName, string scopeValue)
+        public void AddAdditionalParams(string scopeName, string scopeValue)
         {
             lock (m_LocalScopes)
             {
