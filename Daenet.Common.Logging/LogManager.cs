@@ -348,7 +348,7 @@ namespace Daenet.Common.Logging
         }
 
         /// <summary>
-        /// The method traces a Criticial message with an exception.
+        /// The method traces a Critical message with an exception.
         /// </summary>
         /// <param name="eventId"></param>
         /// <param name="err"></param>
@@ -463,7 +463,7 @@ namespace Daenet.Common.Logging
         #region Scope
 
         ///// <summary>
-        ///// Gets the current scope. This is a reference to the curretn scope. Use it only internal.
+        ///// Gets the current scope. This is a reference to the current scope. Use it only internal.
         ///// </summary>
         //private Dictionary<string, string> currentScopeInternal
         //{
@@ -484,7 +484,7 @@ namespace Daenet.Common.Logging
         //}
 
         /// <summary>
-        /// Gets the current scope, with all parrent LogManagers.
+        /// Gets the current scope, with all parent LogManagers.
         /// This Scope is a copy and not the original.
         /// </summary>
         public Dictionary<string, string> CurrentScope
