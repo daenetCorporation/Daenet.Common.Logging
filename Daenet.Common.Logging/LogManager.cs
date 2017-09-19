@@ -57,7 +57,7 @@ namespace Daenet.Common.Logging
         //{
         //}
 
-        public LogManager(ILogger logger, LogManager parentLogMgr = null)
+        public LogManager(ILogger logger, ILogManager parentLogMgr = null)
         {
             m_Logger = logger;
 
@@ -65,7 +65,7 @@ namespace Daenet.Common.Logging
                 m_AdditionalParams = parentLogMgr.CurrentScope;
         }
 
-        public LogManager(ILoggerFactory loggerFactory, string sourceName, LogManager parentLogMgr = null) : this(loggerFactory.CreateLogger(sourceName), parentLogMgr)
+        public LogManager(ILoggerFactory loggerFactory, string sourceName, ILogManager parentLogMgr = null) : this(loggerFactory.CreateLogger(sourceName), parentLogMgr)
         {
             m_SourceName = sourceName;
         }
